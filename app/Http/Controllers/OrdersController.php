@@ -13,7 +13,8 @@ class OrdersController extends Controller
      */
     public function index()
     {
-        //
+        $order = Orders::all();
+        return $order;
     }
 
     /**
@@ -29,7 +30,15 @@ class OrdersController extends Controller
      */
     public function store(StoreOrdersRequest $request)
     {
-        //
+        $order = new Orders;
+        $order->user_id = $request->user_id;
+        $order->order_type = $request->order_type;
+        $order->order_status = $request->order_status;
+        $order->order_total = $request->order_total;
+        
+        $order-> save();
+
+        return $order;
     }
 
     /**
@@ -53,7 +62,15 @@ class OrdersController extends Controller
      */
     public function update(UpdateOrdersRequest $request, Orders $orders)
     {
-        //
+        $order = Orders::find($request->id);
+        $order->user_id = $request->user_id;
+        $order->order_type = $request->order_type;
+        $order->order_status = $request->order_status;
+        $order->order_total = $request->order_total;
+        
+        $order-> save();
+
+        return $order;
     }
 
     /**
