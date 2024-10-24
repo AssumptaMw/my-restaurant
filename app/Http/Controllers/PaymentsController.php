@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Payments;
+use App\Models\User;
+use App\Notifications\SendPaymentEmail;
 use App\Http\Requests\StorePaymentsRequest;
 use App\Http\Requests\UpdatePaymentsRequest;
 
@@ -38,6 +40,10 @@ class PaymentsController extends Controller
         $payment->payment_status = $request->payment_status;
         
         $payment-> save();
+
+        //send email
+        $user = User::find($request->user_id);
+        $user->notify(new SendPaymentEmail($user, $payment));
 
         return $payment;
     }
